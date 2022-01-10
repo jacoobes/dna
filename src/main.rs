@@ -1,3 +1,10 @@
+use clap::StructOpt;
+use cli::DNA;
+
+mod cli;
+
 fn main() {
-    println!("Hello, world!");
+    let dna = DNA::parse();
+    dna.execute_sub_command()
+    
 }
