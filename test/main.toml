@@ -1,0 +1,4 @@
+# Your base module name
+package = "chinua"
+# This is the entry point to Nums project
+main = "src/main.nums"
