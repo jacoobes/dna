@@ -1,2 +1,6 @@
 package main;
-	fun main { :> main function <: }
+	
+	
+	fun main {
+		 :> main function <: 
+	}
