@@ -1,7 +1,7 @@
 use std::{
     fs::{self, File, OpenOptions},
     io::Write,
-    path::PathBuf,
+    path::PathBuf, ascii::AsciiExt,
 };
 
 use clap::{Parser, Subcommand};
@@ -20,6 +20,8 @@ pub enum Command {
         #[clap(short, long)]
         name: String,
     },
+
+    Build
 }
 
 impl DNA {
@@ -44,6 +46,22 @@ impl DNA {
                 );
                 write(&mut main, b"package main;\n\tfun main { :> main function <: }" );
             }
+            Command::Build => {
+                let working_dir = std::env::current_dir()
+                .expect("Either have no permissions to open directory or directory does not exist")
+                .join("main.toml");
+                let toml_str = fs::read_to_string(working_dir).expect("Cannot read main.toml file!");
+                let main_data = crate::toml::MainToml::parse(&toml_str).expect("Could not read toml file!");
+                
+             if main_data
+                .package
+                .chars()
+                .all(|x| !char::is_ascii_alphabetic(&x) && char::is_whitespace(x)) {
+                    panic!("{}, your package name has to be alphabetic and contain no whitespace!", &main_data.package)
+                }
+
+                
+            },
         }
     }
 }
