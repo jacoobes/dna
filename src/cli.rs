@@ -1,7 +1,10 @@
 use std::{
     fs::{self, File, OpenOptions},
     io::Write,
-    path::PathBuf, ascii::AsciiExt,
+    path::{PathBuf, Path}
+};
+use nums::{
+    compiler::{nums_compiler::Compiler, source::Source}
 };
 
 use clap::{Parser, Subcommand};
@@ -54,12 +57,15 @@ impl DNA {
                 let main_data = crate::toml::MainToml::parse(&toml_str).expect("Could not read toml file!");
                 
              if main_data
-                .package
+                .package()
                 .chars()
                 .all(|x| !char::is_ascii_alphabetic(&x) && char::is_whitespace(x)) {
-                    panic!("{}, your package name has to be alphabetic and contain no whitespace!", &main_data.package)
+                    panic!("{}, your package name has to be alphabetic and contain no whitespace!", main_data.package())
                 }
-
+                let entry_pt = std::env::current_dir().expect("The current dir does not exist").join(main_data.main());
+                let file = read_file(&entry_pt);
+                let compiler  = Compiler::new(Source::new(file, main_data.main()));
+                compiler.compile(main_data.package())
                 
             },
         }
@@ -74,3 +80,4 @@ fn create_open_options(path: &PathBuf, error_msg: &str) -> File {
 }
 
 fn write(file: &mut File, buf: &[u8]) {  file.write_all(buf).expect("could not write to file") }
+fn read_file<P : AsRef<Path>>(path: P) -> String { fs::read_to_string(path).expect("Unable to read file") }
