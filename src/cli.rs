@@ -55,12 +55,13 @@ impl DNA {
                 .join("main.toml");
                 let toml_str = fs::read_to_string(working_dir).expect("Cannot read main.toml file!");
                 let main_data = crate::toml::MainToml::parse(&toml_str).expect("Could not read toml file!");
-                
+             //possibly prettify the error message?    
              if main_data
                 .package()
                 .chars()
-                .all(|x| !char::is_ascii_alphabetic(&x) && char::is_whitespace(x)) {
-                    panic!("{}, your package name has to be alphabetic and contain no whitespace!", main_data.package())
+                .any(|x| !char::is_ascii_alphabetic(&x) || char::is_whitespace(x)) {
+                    println!("`{}`, your package name has to be alphabetic and contain no whitespace!", main_data.package());
+                    std::process::exit(65)
                 }
                 let entry_pt = std::env::current_dir().expect("The current dir does not exist").join(main_data.main());
                 let file = read_file(&entry_pt);
