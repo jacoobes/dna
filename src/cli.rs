@@ -4,7 +4,7 @@ use std::{
     path::{PathBuf, Path}
 };
 use nums::{
-    compiler::{nums_compiler::Compiler, source::Source}
+    compiler::{nums_compiler::Compiler, source::Source, nodes::SmolStr}
 };
 
 use clap::{Parser, Subcommand};
@@ -66,7 +66,7 @@ impl DNA {
                 let entry_pt = std::env::current_dir().expect("The current dir does not exist").join(main_data.main());
                 let file = read_file(&entry_pt);
                 let compiler  = Compiler::new(Source::new(file, main_data.main()));
-                compiler.compile(main_data.package())
+                compiler.compile(SmolStr::from(main_data.package()))
                 
             },
         }

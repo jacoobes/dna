@@ -1,6 +1,7 @@
 package main;
-	
+	get test;
 	
 	fun main {
-		 :> main function <: 
+	
+		a.b.c[a, b,];
 	}
