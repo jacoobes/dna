@@ -1,7 +1,10 @@
-package main;
-	get test;
-	
-	fun main {
-	
-		a.b.c[a, b,];
+	fn main {
+		while is_smelly and is_eating {
+			std.out[ ];
+		}
+		return a;
 	}
+
+	
+
+	

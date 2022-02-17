@@ -2,7 +2,7 @@ use serde_derive::Deserialize;
 
 #[derive(Deserialize, Debug)]
 pub struct MainToml {
-    package: String,
+    name: String,
     main : String
 }
 
@@ -11,7 +11,7 @@ impl MainToml {
         toml::from_str(string) 
     }
 
-    pub fn package(&self) -> &str {  &self.package  }
+    pub fn name(&self) -> &str {  &self.name  }
 
     pub fn main(&self) -> &str { &self.main  }
 }

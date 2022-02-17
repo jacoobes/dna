@@ -1,4 +1,4 @@
 # Your base module name
-package = "chinua"
+name = "namaste"
 # This is the entry point to Nums project
 main = "src/main.nums"
